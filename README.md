@@ -48,7 +48,7 @@ Wardriving through Marauder works whether or not this is enabled. Stock Flipper 
 
 Scout Lite ships pre-flashed, so you can start wardriving right away. To update or re-flash ESP32 Marauder, connect the board over USB-C and use the PINGEQUA web flasher:
 
-**→ [flash.pingequa.com](https://flash.pingequa.com)**
+**→ [flash.pingequa.com/devices/scout-lite](https://flash.pingequa.com/devices/scout-lite)**
 
 *The flashing tool is being finalized — check the page for current instructions and the latest ESP32-C5 build.*
 
@@ -71,7 +71,7 @@ For network research, security auditing, and education only. Contains 2.4 / 5 GH
 ## Links
 
 - **Product page** — [Scout Lite on PINGEQUA](https://www.pingequa.com/products/scout-lite-for-flipper-zero-esp32-c5-wi-fi-6-wardriver-with-l86-gps)
-- **Firmware flashing** — [flash.pingequa.com](https://flash.pingequa.com)
+- **Firmware flashing** — [flash.pingequa.com/devices/scout-lite](https://flash.pingequa.com/devices/scout-lite)
 - **Momentum firmware** — [momentum-fw.dev](https://momentum-fw.dev)
 - **ESP32 Marauder** — [github.com/justcallmekoko/ESP32Marauder](https://github.com/justcallmekoko/ESP32Marauder)
 - **WiGLE** — [wigle.net](https://wigle.net)
