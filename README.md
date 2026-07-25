@@ -70,7 +70,7 @@ For network research, security auditing, and education only. Contains 2.4 / 5 GH
 
 ## Links
 
-- **Product page** — [Scout Lite on PINGEQUA](https://www.pingequa.com/products/scout-lite-for-flipper-zero-esp32-c5-wi-fi-6-wardriver-with-l86-gps)
+- **Product page** — [Scout Lite on PINGEQUA](https://www.pingequa.com/products/scout-lite?utm_source=github&utm_medium=readme&utm_campaign=scout-lite)
 - **Firmware flashing** — [flash.pingequa.com/devices/scout-lite](https://flash.pingequa.com/devices/scout-lite)
 - **Momentum firmware** — [momentum-fw.dev](https://momentum-fw.dev)
 - **ESP32 Marauder** — [github.com/justcallmekoko/ESP32Marauder](https://github.com/justcallmekoko/ESP32Marauder)
