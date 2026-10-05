@@ -103,7 +103,7 @@ For network research, security auditing, and education only. Contains 2.4 / 5 GH
 
 ## Links
 
-- **Product page** — [Scout Lite on PINGEQUA](https://www.pingequa.com/products/scout-lite?utm_source=github&utm_medium=readme&utm_campaign=scout-lite)
+- **Product page** — [Scout Lite on PINGEQUA](https://www.pingequa.com/products/scout-lite?utm_source=github&utm_medium=referral&utm_campaign=pq-scout-lite-c5&utm_content=scout-lite-readme)
 - **Firmware flashing** — [flash.pingequa.com/devices/scout-lite](https://flash.pingequa.com/devices/scout-lite)
 - **SigRoam wardriving app** — [github.com/pingequalab/sigroam-wardriving](https://github.com/pingequalab/sigroam-wardriving)
 - **SigRoam scanner firmware** — [github.com/pingequalab/sigroam-firmware](https://github.com/pingequalab/sigroam-firmware)
