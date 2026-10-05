@@ -1,112 +1,158 @@
-# Scout Lite for Flipper Zero
+# Scout Lite for Flipper Zero: ESP32-C5 Wi-Fi research and GPS wardriving
 
-**Compact ESP32-C5 dual-band Wi-Fi wardriving board for the Flipper Zero.** Scan 2.4 and 5 GHz, tag observations with onboard GPS, and save WiGLE-ready CSV to the Scout Lite microSD. Scout Lite ships with ESP32 Marauder; the optional SigRoam scanner firmware adds an after-stop WiGLE upload workflow.
+Scout Lite is a Flipper Zero companion board with an **ESP32-C5 2.4/5 GHz Wi-Fi radio, onboard L86-M33 GNSS, and its own microSD slot**. It ships with **ESP32 Marauder**. Marauder is the primary, recommended firmware for Wi-Fi research; start with its Flipper companion app. For a more focused wardriving screen, try the **SigRoam Flipper app (FAP)**. If you also want sealed survey logs and an automatic WiGLE upload *attempt after STOP*, switch the board to the optional **SigRoam scanner firmware**.
 
-> For network research, security auditing, and education only. Only scan or test networks you own or are explicitly authorized to assess.
+<p align="center">
+  <img src="assets/scout-lite-on-flipper.webp" alt="Scout Lite ESP32-C5 board on a Flipper Zero with its dual-band SMA antenna and Marauder wardrive menu" width="620">
+</p>
 
----
+<p align="center">
+  <a href="https://www.pingequa.com/products/scout-lite">Product page</a> ·
+  <a href="https://flash.pingequa.com/devices/scout-lite">Web Flasher</a> ·
+  <a href="https://github.com/pingequalab/sigroam-wardriving/releases/latest">SigRoam FAP releases</a>
+</p>
 
-## What it is
+> For network research, education, and assessments of networks you own or are authorized to test. The Flipper Zero and FAT32 microSD card are separate; the board and dual-band antenna are included.
 
-Scout Lite is a streamlined Scout variant focused on **Wi-Fi · GPS · logging**. It runs pre-flashed ESP32 Marauder and works the moment you mount it on the Flipper's GPIO header — no assembly, no soldering. CC1101 and nRF24 are removed; a microSD slot is added for standalone WigleWifi logging.
+## Choose your software
 
-## Hardware at a glance
+**Start with the factory Marauder setup.** The same Scout Lite hardware supports these three paths:
 
-| | |
-|---|---|
-| **Wi-Fi SoC** | ESP32-C5-WROOM-1U — 2.4 + 5 GHz Wi-Fi 6 (5 GHz is scan / enumeration only) |
-| **GPS** | Quectel L86-M33 (MediaTek MT3333) — GPS / GLONASS / Galileo, integrated patch antenna, −165 dBm tracking |
-| **Storage** | microSD (FAT32) — WigleWifi CSV. *Card not included.* |
-| **Antenna** | SMA connector + dual-band 2.4 / 5 GHz antenna included |
-| **Interface** | Flipper Zero GPIO header · USB-C (power + flashing) |
-| **Firmware** | ESP32 Marauder — ships pre-flashed |
-| **Flipper app (optional)** | [SigRoam](https://github.com/pingequalab/sigroam-wardriving) — dedicated receive-only wardriving dashboard |
-| **Dedicated scanner firmware** | [SigRoam 0.6](https://github.com/pingequalab/sigroam-firmware/releases/tag/v0.6), optional in the [Scout Lite Web Flasher](https://flash.pingequa.com/devices/scout-lite); factory units ship with Marauder |
+| Your goal | Firmware on Scout Lite | App on Flipper Zero | Logging and upload |
+| --- | --- | --- | --- |
+| **Wi-Fi research and the broad Marauder toolkit — recommended first** | Factory **ESP32 Marauder** | **Marauder companion app** | Marauder Wardrive CSV on Scout Lite microSD; Marauder direct upload or manual card transfer. No board flash needed. |
+| **A focused wardriving display without reflashing** | Factory **ESP32 Marauder** | **SigRoam Wardriving FAP** | SigRoam controls Marauder over its serial protocol. Logs and uploads still follow **Marauder's** workflow. |
+| **Complete SigRoam survey and upload workflow** | Optional **SigRoam scanner firmware** | Matching **SigRoam Wardriving FAP** | Sealed CSV on Scout Lite microSD; upload attempt after successful STOP when configured Wi-Fi is reachable, with manual retry. |
 
-## Getting started
+The FAP runs on the **Flipper Zero**. The Marauder or SigRoam scanner firmware runs on the **Scout Lite ESP32-C5**. The Flipper controls and displays the session; Scout Lite scans, reads GNSS, and writes to its own microSD. Installing a SigRoam FAP alone does **not** install SigRoam scanner firmware or enable its after-STOP upload.
 
-1. **Mount** Scout Lite on the Flipper Zero's GPIO header. It ships pre-flashed — nothing to install on the board.
-2. **Install [Momentum](https://momentum-fw.dev)** firmware on the Flipper. Momentum bundles the Marauder companion app and can remap the GPS UART to GPIO 15/16 (stock firmware cannot).
-3. **Insert a microSD card** (FAT32, not included). Logs are written here.
-4. On the Flipper, open **Apps → GPIO → [ESP32] WiFi Marauder**.
-5. Select **Wardrive**. Access points are logged with time, signal, channel, and GPS coordinates as WigleWifi CSV.
+**Marauder compatibility:** Scout Lite supports its published ESP32-C5 Marauder image as a first-class firmware choice, including recovery through the [Web Flasher](https://flash.pingequa.com/devices/scout-lite). The SigRoam FAP speaks the Marauder serial protocol. Individual Marauder functions depend on the ESP32-C5 build and fitted hardware: Scout Lite has no CC1101 or nRF24 radio, and **5 GHz is for scan/enumeration, not handshake capture**. Compatibility does not imply that every function from every other Marauder board exists here.
 
-## Choose a Flipper wardriving workflow
+## Hardware and package contents
 
-The [SigRoam Flipper app](https://github.com/pingequalab/sigroam-wardriving) is a `.fap`; the [SigRoam scanner firmware](https://github.com/pingequalab/sigroam-firmware) is an ESP32-C5 image. They are different downloads. The Flipper controls and displays the survey; Scout Lite scans, reads GPS and writes its own microSD.
+| Part | Scout Lite configuration |
+| --- | --- |
+| Wi-Fi | ESP32-C5-WROOM-1U; one radio scans 2.4 GHz and 5 GHz, switching between bands rather than scanning both simultaneously. |
+| GNSS | Onboard Quectel L86-M33 with integrated patch antenna; its data goes to the ESP32-C5 and is also routed to Flipper GPIO 15/16 for a separately configured native GPS app. |
+| Storage | Onboard microSD slot for WigleWifi CSV. Use a FAT32 card; **card not included**. |
+| Antenna | SMA connector and included dual-band 2.4/5 GHz Wi-Fi antenna. Attach the antenna before powering the board. |
+| Connections | Flipper Zero GPIO header for power/control; USB-C for power and firmware flashing. |
+| Firmware | ESP32 Marauder pre-flashed; optional SigRoam scanner firmware in the browser flasher. |
 
-| Scout Lite firmware | Flipper app | WiGLE upload |
-|---|---|---|
-| Factory ESP32 Marauder | Marauder companion or compatible SigRoam FAP | Marauder's direct-upload workflow, or copy its CSV from Scout Lite microSD. SigRoam's after-stop auto-upload does not apply. |
-| Optional SigRoam scanner firmware | SigRoam FAP | Configure WiGLE and upload Wi-Fi credentials on Scout Lite microSD once; after a successful STOP, the scanner attempts to upload sealed files when that Wi-Fi is reachable. Retry from the FAP Upload page if needed. |
+<table>
+  <tr>
+    <td align="center"><img src="assets/scout-lite-components-front.webp" alt="Front of Scout Lite showing the L86-M33 GNSS module, ESP32-C5, USB-C, BOOT button and SMA connector" width="390"><br><sub>Front: GNSS, ESP32-C5, USB-C and antenna connector</sub></td>
+    <td align="center"><img src="assets/scout-lite-microsd-back.webp" alt="Back of Scout Lite showing its own microSD slot and Flipper Zero GPIO pins" width="390"><br><sub>Back: Scout Lite microSD slot and GPIO pins</sub></td>
+  </tr>
+</table>
 
-To use the complete SigRoam workflow, select **SigRoam** in the [Scout Lite Web Flasher](https://flash.pingequa.com/devices/scout-lite) and install the matching FAP from [SigRoam Releases](https://github.com/pingequalab/sigroam-wardriving/releases/latest) to `SD Card/apps/GPIO/` on the **Flipper**. Release 0.6 provides an Official/Momentum-compatible `.fap` and a separate Unleashed build; choose the asset for your Flipper firmware. Set **Settings → System → Log Device → Off** to free serial pins 13/14, then open **Apps → GPIO → SigRoam Wardriving → Dashboard**. The dedicated scanner firmware is supported on Scout Lite; do not flash the Flipper `.fap` to the ESP32.
+Scout Lite is a Wi-Fi, GNSS, and logging board. It does not add a Wi-Fi radio to the Flipper itself. The documented workflow uses a Flipper Zero host.
 
-SigRoam survey capture is receive-only: no deauth, handshake capture or attack features. Uploading later uses a normal Wi-Fi connection.
+## Get started with Marauder (recommended)
 
-## GPS wiring & the Flipper GPS app
+1. Attach the included dual-band antenna. Insert a **FAT32 microSD card into Scout Lite** if you want logs; it is different from the Flipper SD card.
+2. Seat Scout Lite on the Flipper Zero GPIO header. The board ships with Marauder, so **no board flash is needed for the first run**.
+3. Open a compatible **Marauder companion app** on the Flipper. On Momentum, the path is **Apps → GPIO → [ESP32] WiFi Marauder**. Find app and Flipper firmware instructions in the [ESP32 Marauder project](https://github.com/justcallmekoko/ESP32Marauder) and your [Flipper firmware distribution](https://momentum-fw.dev/).
+4. Start with a normal scan to confirm communication. Choose **Wardrive** for GPS-tagged logs, and verify a GNSS fix outdoors before relying on coordinates.
+5. Stop the session and read the WigleWifi CSV from the **Scout Lite microSD**. Marauder also provides [direct WiGLE upload](https://github.com/justcallmekoko/ESP32Marauder/wiki/wardriving-direct-upload); it is separate from SigRoam's after-STOP workflow.
 
-The onboard GPS is hard-wired to the ESP32-C5 (so Marauder logs location automatically), and its NMEA output is also routed to the Flipper's GPIO 15/16.
+Marauder is the first recommendation for its wider Wi-Fi and Bluetooth research menus. Feature availability follows the Scout Lite ESP32-C5 image. The [official Marauder Wardrive guide](https://github.com/justcallmekoko/ESP32Marauder/wiki/Wardrive) explains how its GPS-gated logging works.
 
-To view live position in the Flipper's native GPS app, enable the pin mapping:
+## Try the SigRoam FAP for wardriving
 
-> **Momentum:** MNTM → Protocols → GPIO Pins → NMEA GPS UART → **Extra 15,16**
+[SigRoam Wardriving](https://github.com/pingequalab/sigroam-wardriving) is a dedicated Flipper field display. Its **Dash / Strm / GPS / Sess** views present AP/BLE observations, GNSS fix, and session status. It can control the factory Marauder image through Marauder's serial protocol, so you can try the FAP **without changing board firmware**. Some SigRoam capture and upload indicators require the matching SigRoam scanner firmware.
 
-Wardriving through Marauder works whether or not this is enabled. Stock Flipper firmware pins the GPS app to GPIO 13/14 — which the ESP32 already uses — so the native GPS app needs Momentum or Xtreme.
+<p align="center">
+  <img src="assets/sigroam-dashboard.png" alt="SigRoam Flipper dashboard with unique BSSID count, AP and BLE observations, GNSS status and capture health" width="512"><br>
+  <sub>SigRoam dashboard · screenshot from the <a href="https://github.com/pingequalab/sigroam-wardriving">SigRoam Wardriving project</a></sub>
+</p>
 
-## Uploading logs to WiGLE
+1. Download the FAP that matches your Flipper firmware from [SigRoam Releases](https://github.com/pingequalab/sigroam-wardriving/releases/latest). Copy it to **SD Card/apps/GPIO/** on the **Flipper**.
+2. Set **Settings → System → Log Device → Off** to free the serial pins, then open **Apps → GPIO → SigRoam Wardriving**.
+3. Use **Probe firmware** if the board does not respond. In **Dashboard**, press **OK** to start and **OK** again to stop; **Back** only leaves the dashboard.
+4. With the factory Marauder image, use **Marauder's** logging and upload procedure. The FAP alone does not create a SigRoam sealed session.
 
-### SigRoam scanner: configure on the Scout Lite microSD
+The [SigRoam firmware comparison](https://github.com/pingequalab/sigroam-wardriving#choose-your-scanner-firmware) describes these two board-firmware combinations.
 
-Get the API Name and API Token from your [WiGLE account](https://wigle.net/account). Put four plain-text files in the **root of the Scout Lite microSD**, each containing only its value:
+## Optional: complete SigRoam scanner workflow
 
-| File | Value |
-|---|---|
-| `wigle_api_name.txt` | WiGLE API Name |
-| `wigle_api_token.txt` | WiGLE API Token |
-| `home_ssid.txt` | Wi-Fi name used for uploads |
-| `home_psk.txt` | That Wi-Fi password; empty file for an open network |
+Choose this when wardriving is your main task and you want SigRoam's session health views, sealed logs, and WiGLE upload attempt after STOP. SigRoam survey capture is passive: it does not provide deauthentication, handshake capture, or attack traffic. Later upload uses a normal Wi-Fi/HTTPS connection.
 
-Restart Scout Lite to import the files. The scanner overwrites and removes the source files after import; check that they disappeared and that the FAP **Upload** page shows `Key` and `Home` configured. Do not post the files or their contents publicly. Start a survey in **Dash**, then press OK to stop. SigRoam seals and verifies the CSV and automatically **attempts** to upload pending sealed files if the configured Wi-Fi is reachable. Keep the board powered and its microSD inserted while sending. `Uploaded` with a WiGLE `transId` means WiGLE accepted the file; later processing and scoring are separate. If offline, use **Upload** on the Flipper to retry when back in range. SigRoam does not interrupt an active survey to upload or automatically start another attempt just because the Wi-Fi appears later.
+1. Disconnect Scout Lite from the Flipper. In a supported browser, open the [Scout Lite Web Flasher](https://flash.pingequa.com/devices/scout-lite), choose **SigRoam**, and follow its **BOOT / USB-C download-mode** steps. The picker handles the two firmware layouts.
+2. Install the **matching SigRoam FAP** from [Releases](https://github.com/pingequalab/sigroam-wardriving/releases/latest) on the Flipper. Check release notes for Official/Momentum versus Unleashed builds and API compatibility. Never flash a FAP to the ESP32-C5.
+3. Insert a FAT32 microSD card in **Scout Lite**. For WiGLE upload, put these four plain-text files at that card's root; each file contains only its value:
 
-### Factory Marauder: join Wi-Fi and trigger direct upload
+   | File | Value |
+   | --- | --- |
+   | **wigle_api_name.txt** | WiGLE API Name |
+   | **wigle_api_token.txt** | WiGLE API Token |
+   | **home_ssid.txt** | Upload Wi-Fi network name |
+   | **home_psk.txt** | Upload Wi-Fi password; empty file for an open network |
 
-Marauder also supports direct WiGLE upload. Put `wigle_api_name.txt` and `wigle_api_token.txt` on the Scout Lite microSD root, then use Marauder's **Join WiFi** flow after an AP scan and trigger the upload from its menu. The official CLI documents `join -a <ap_index> -p <password>`; on a Flipper-controlled board, selecting the network and entering its password through the app is an extra setup step. Marauder can save Wi-Fi profiles, so this is not necessarily repeated on every upload. The [Marauder Direct Upload guide](https://github.com/justcallmekoko/ESP32Marauder/wiki/wardriving-direct-upload) documents the credential files and saved-network behavior. SigRoam's microSD setup avoids entering the Wi-Fi password through the Flipper interface for the complete SigRoam workflow.
+4. Restart Scout Lite to import the values. The scanner consumes the source files. Check that they disappear and that **Upload** on the FAP shows **Key** and **Home** configured. Keep the credentials private.
+5. Start a survey from **Dash**, then press **OK** to stop it. Successful STOP seals and verifies the CSV. If the configured Wi-Fi is reachable, Scout Lite **attempts** to upload pending sealed files. Failed files remain on Scout Lite microSD for retry from **Upload**. **Uploaded** with a WiGLE **transId** means WiGLE accepted a file; later processing is separate. The scanner neither interrupts an active survey to upload nor automatically retries simply because Wi-Fi later returns.
 
-For either firmware, you can also power off, remove the Scout Lite microSD, and upload its WigleWifi CSV manually at [wigle.net](https://wigle.net).
+<p align="center">
+  <img src="assets/sigroam-upload.png" alt="SigRoam Flipper Upload view showing a WiGLE upload in progress and a reminder to leave the card inserted" width="512"><br>
+  <sub>SigRoam Upload view · screenshot from the <a href="https://github.com/pingequalab/sigroam-wardriving">SigRoam Wardriving project</a></sub>
+</p>
 
-## Updating firmware
+See the [SigRoam scanner firmware](https://github.com/pingequalab/sigroam-firmware) and [FAP upload setup](https://github.com/pingequalab/sigroam-wardriving#setup-automatic-wigle-upload) for release-specific details. To return to Marauder, select **Marauder** in the same [Web Flasher](https://flash.pingequa.com/devices/scout-lite).
 
-Scout Lite ships with Marauder, so you can start wardriving without flashing the board. To switch between Marauder and the optional SigRoam scanner firmware, disconnect Scout Lite from the Flipper, connect it over USB-C and use the PINGEQUA web flasher:
+## GPS, storage, and WiGLE: common distinctions
 
-**→ [flash.pingequa.com/devices/scout-lite](https://flash.pingequa.com/devices/scout-lite)**
-
-Check the page for the current images and follow its BOOT-mode instructions. The two firmware choices use different flash layouts; select the matching option rather than writing one application's binary at the other's offset.
+- **Two SD cards:** Scout Lite's microSD holds its survey logs. The Flipper SD card holds FAP apps and Flipper settings. Put scanner upload credential files on the **Scout Lite** card.
+- **Board GNSS versus native Flipper GPS:** Marauder and SigRoam read Scout Lite's onboard GNSS directly. The native GPS app needs NMEA mapped to **Flipper GPIO 15/16**. On Momentum, use **MNTM → Protocols → GPIO Pins → NMEA GPS UART → Extra 15,16**. This mapping is not needed for board-side wardriving.
+- **No fix versus no scan:** A normal scan can find APs while GPS-tagged Wardrive rows are absent. Test outdoors and wait for a valid fix. The [Marauder Wardrive guide](https://github.com/justcallmekoko/ESP32Marauder/wiki/Wardrive) says rows are saved only with a valid fix.
+- **Manual upload:** With either board firmware, power down, remove Scout Lite's microSD, and upload a compatible WigleWifi CSV through [WiGLE](https://wigle.net/). Factory Marauder has its own [direct upload](https://github.com/justcallmekoko/ESP32Marauder/wiki/wardriving-direct-upload); SigRoam scanner firmware offers the configured after-STOP attempt.
 
 ## Troubleshooting
 
-**The Flipper GPS app shows no fix.** Almost always firmware, not hardware. Confirm the GPS UART is mapped to GPIO 15/16 (Momentum: MNTM → Protocols → GPIO Pins). Give the antenna a clear view of the sky for the first fix — a cold start can take a minute.
+Work from the observable symptom before reflashing.
 
-**No networks are logged.** Make sure a FAT32 microSD card is inserted and you started *Wardrive* (not plain Scan). Rows only get coordinates once the GPS has a fix.
+| Symptom | First check | Next step |
+| --- | --- | --- |
+| Flipper app cannot find Scout Lite, or serial is busy | Reseat the board, verify power and the chosen app, and set **Settings → System → Log Device → Off**. | Run **Probe firmware** in SigRoam; check [FAP compatibility](https://github.com/pingequalab/sigroam-wardriving#compatibility-and-limits). |
+| Scan works, but no WigleWifi CSV appears | Confirm a FAT32 card is in **Scout Lite**, not only the Flipper. Start **Wardrive**, not plain Scan. | Check for a valid GNSS fix outdoors; see [Marauder Wardrive](https://github.com/justcallmekoko/ESP32Marauder/wiki/Wardrive). |
+| Board GPS works, but the native Flipper GPS app has no data | Native GPS uses the separate GPIO 15/16 NMEA path. | Configure the compatible firmware's GPS UART mapping; on Momentum use **Extra 15,16**. |
+| SigRoam shows **Key** or **Home** unconfigured | Check the four credential file names and contents on the **Scout Lite** card, then restart the scanner. | Follow the [SigRoam upload guide](https://github.com/pingequalab/sigroam-wardriving#setup-automatic-wigle-upload). |
+| SigRoam stopped, but upload did not finish | Check **Upload** for Wi-Fi, queue state, and WiGLE response; keep board and card powered. | Retry pending sealed files from **Upload** in range. WiGLE **HTTP 429** is a limit response, not a completed upload. |
+| Web Flasher sees no board | Use a supported browser and USB-C **data** cable; disconnect the Flipper. | Follow [download mode](https://flash.pingequa.com/devices/scout-lite): hold **BOOT**, plug in USB-C, release BOOT, then connect. |
+| Wrong app behavior after a firmware switch | Confirm the image chosen in Web Flasher and matching FAP on Flipper. | Reinstall the intended **Marauder** or **SigRoam** choice in the flasher; do not mix raw binary offsets. |
 
-**SigRoam says the serial port is busy.** Set `Settings → System → Log Device` to `Off`.
+## Frequently asked questions
 
-**Can I capture 5 GHz handshakes?** No — 5 GHz is scan / enumeration only. You'll see 5 GHz networks that 2.4 GHz-only boards miss, but handshake capture is a 2.4 GHz activity.
+### Does Scout Lite ship with Marauder or SigRoam?
 
-**Does it support BeiDou?** The L86-M33 covers GPS, GLONASS, and Galileo — accurate positioning worldwide. BeiDou is not required for WiGLE-grade fixes.
+It ships **pre-flashed with ESP32 Marauder**. Marauder plus its Flipper companion app is the recommended first setup for Wi-Fi research. SigRoam is optional: its FAP can be tried with factory Marauder; its scanner firmware is a separate board flash for the full survey workflow.
 
-**Antenna.** Use the included dual-band antenna, or any SMA Wi-Fi antenna on the SMA connector. Always attach the antenna before powering on to protect the RF front-end.
+### Is Scout Lite fully compatible with ESP32 Marauder?
 
-## Compliance
+Scout Lite is designed for and ships with the **Scout Lite ESP32-C5 Marauder image**, and that image can be restored from the official Web Flasher. Marauder is the primary firmware choice. Feature availability follows the ESP32-C5 target and fitted hardware. The board scans 5 GHz APs but does not capture 5 GHz handshakes, and it has no CC1101 or nRF24 radio.
 
-For network research, security auditing, and education only. Contains 2.4 / 5 GHz radios — FCC Part 15 (US), ISED RSS (Canada), RED (EU / UK), MIC (Japan) apply. Firmware is ESP32 Marauder (GPLv3). The optional SigRoam Flipper app is GPL-3.0. Only scan or test networks you own or are explicitly authorized to assess.
+### Which setup is best for wardriving?
 
-## Links
+Start with **Marauder + Marauder companion** for the wider toolkit. Try **Marauder + SigRoam FAP** for the dedicated field display without reflashing. Use **SigRoam scanner firmware + matching FAP** for sealed survey records and the configured upload attempt after STOP.
 
-- **Product page** — [Scout Lite on PINGEQUA](https://www.pingequa.com/products/scout-lite?utm_source=github&utm_medium=readme&utm_campaign=scout-lite)
-- **Firmware flashing** — [flash.pingequa.com/devices/scout-lite](https://flash.pingequa.com/devices/scout-lite)
-- **SigRoam wardriving app** — [github.com/pingequalab/sigroam-wardriving](https://github.com/pingequalab/sigroam-wardriving)
-- **SigRoam scanner firmware** — [github.com/pingequalab/sigroam-firmware](https://github.com/pingequalab/sigroam-firmware)
-- **Momentum firmware** — [momentum-fw.dev](https://momentum-fw.dev)
-- **ESP32 Marauder** — [github.com/justcallmekoko/ESP32Marauder](https://github.com/justcallmekoko/ESP32Marauder)
-- **WiGLE** — [wigle.net](https://wigle.net)
+### Where are logs and upload credentials stored?
+
+On the **Scout Lite microSD**, not the Flipper's SD card. Marauder and SigRoam have different logging/upload workflows; installing the SigRoam FAP does not convert Marauder logs into SigRoam sealed sessions.
+
+### Can I switch back to Marauder?
+
+Yes. Disconnect Scout Lite from the Flipper, choose **Marauder** in the [Scout Lite Web Flasher](https://flash.pingequa.com/devices/scout-lite), and follow its instructions. Use current flasher/release notes rather than old hard-coded binary offsets.
+
+## Project references and current releases
+
+| Resource | Use it for |
+| --- | --- |
+| [Scout Lite product page](https://www.pingequa.com/products/scout-lite) | Hardware photos, package contents and current commerce details. |
+| [Scout Lite Web Flasher](https://flash.pingequa.com/devices/scout-lite) | Marauder/SigRoam image choice, supported browsers, BOOT sequence and recovery. |
+| [ESP32 Marauder](https://github.com/justcallmekoko/ESP32Marauder) · [Wardrive](https://github.com/justcallmekoko/ESP32Marauder/wiki/Wardrive) · [direct upload](https://github.com/justcallmekoko/ESP32Marauder/wiki/wardriving-direct-upload) | Marauder features, GPS-gated logging and its own WiGLE workflow. |
+| [SigRoam Wardriving FAP](https://github.com/pingequalab/sigroam-wardriving) · [latest FAP release](https://github.com/pingequalab/sigroam-wardriving/releases/latest) | FAP behavior, supported combinations, screenshots and compatible assets. |
+| [SigRoam scanner firmware](https://github.com/pingequalab/sigroam-firmware) · [scanner releases](https://github.com/pingequalab/sigroam-firmware/releases) | Optional ESP32-C5 image and release-specific notes. |
+| [PINGEQUA wardriving comparison](https://www.pingequa.com/blogs/guides-tutorials/flipper-zero-esp32-gps-wardriver-sigroam-marauder) · [Press & Media Kit](https://www.pingequa.com/pages/press-media-kit) | Related hardware/software context and first-party media. |
+
+Hardware photos in **assets/** come from the [PINGEQUA Scout Lite product gallery](https://www.pingequa.com/products/scout-lite); SigRoam screens come from the [SigRoam Wardriving repository](https://github.com/pingequalab/sigroam-wardriving/tree/main/screenshots). Credit: PINGEQUA.
+
+**Radio and software note:** Follow local radio rules, including applicable FCC Part 15, SDoC/FCC ID or regional equipment requirements for the final hardware and antenna configuration. ESP32 Marauder is a third-party project; the SigRoam FAP is a separate PINGEQUA project. Compatibility does not imply affiliation with Flipper Devices or the Marauder maintainers.
