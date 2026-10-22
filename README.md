@@ -2,7 +2,7 @@
 
 **ESP32-C5 dual-band Wi-Fi board with onboard GPS.** Custom Marauder for Scout Lite is already on the board.
 
-Two Flipper apps use that firmware. Pick SigRoam for the survey screen, or the Marauder app for the general menu. Switching apps does not reflash the board.
+Two Flipper apps use that firmware. Pick SigRoam for wardriving, or the Marauder app for Wi-Fi and Bluetooth analysis. Switching apps does not reflash the board.
 
 **[Install the SigRoam app](https://flash.pingequa.com/devices/flipper-sigroam)** · **[Update the board](https://flash.pingequa.com/devices/scout-lite)**
 
@@ -12,15 +12,15 @@ Two Flipper apps use that firmware. Pick SigRoam for the survey screen, or the M
 
 Both apps run on the firmware already on the board. Switching apps does not reflash it.
 
-### SigRoam — survey screen
+### SigRoam — wardriving
 
-Choose SigRoam to watch the survey: live 2.4 GHz and 5 GHz counts, GPS, the upload queue, and Board tools.
+Choose SigRoam for a wardrive. It shows live 2.4 GHz and 5 GHz counts, GPS, the upload queue, and Board tools while you log networks.
 
 Install it below. Screens and the rest of the app are in the [SigRoam guide](https://github.com/pingequalab/sigroam-wardriving).
 
-### Marauder app — general menu
+### Marauder app — Wi-Fi analysis
 
-Choose the Marauder app for the general menu on this screenless board: 2.4 GHz and 5 GHz scanning, wardrive with GPS, logs on the board card, and WiGLE upload.
+Choose the Marauder app for Wi-Fi and Bluetooth analysis on this screenless board: scanning, the wider Marauder menu, and logs on the board card. It can start a wardrive. SigRoam is the wardriving app.
 
 Open `Apps → GPIO → [ESP32] WiFi Marauder`. If that item is missing, install WiFi Marauder from the Flipper app catalog.
 
@@ -34,7 +34,7 @@ How to use the menu is in the [Marauder getting started guide](https://github.co
 
 ## Install the SigRoam app
 
-The app is the survey screen: live 2.4 GHz and 5 GHz counts, GPS, the upload queue, and Board tools. It goes on the Flipper, not on the ESP32.
+SigRoam is the wardriving app: live 2.4 GHz and 5 GHz counts, GPS, the upload queue, and Board tools. It goes on the Flipper, not on the ESP32.
 
 | Dashboard | Upload |
 |---|---|
@@ -51,9 +51,9 @@ The app is the survey screen: live 2.4 GHz and 5 GHz counts, GPS, the upload que
 1. Screw the antenna on. Power off the Flipper. Seat Scout Lite on the GPIO header.
 2. Put a FAT32 card in Scout Lite, not in the Flipper. The card is not in the box.
 3. Outdoors, wait for a GPS fix. In SigRoam, press OK on Dash to start, and OK again to stop. In the Marauder app, start Wardrive from the menu in the guide above.
-4. Press Upload when you want the logs on WiGLE. Stopping a survey does not upload.
+4. Press Upload when you want the logs on WiGLE. Stopping a wardrive does not upload.
 
-> Wardrive transmits while it hops channels. Indoors, a survey may not start. 5 GHz on this board is scan and enumeration.
+> Wardrive transmits while it hops channels. Indoors, a wardrive may not start. 5 GHz on this board is scan and enumeration.
 
 ## WiGLE key and Wi-Fi
 
@@ -111,7 +111,7 @@ Set `Settings → System → Log Device` to `Off`. Pins 13 and 14 are the link t
 <details>
 <summary>Nothing is logged</summary>
 
-The card must be FAT32 and in Scout Lite, not in the Flipper. Start Wardrive, or press OK on Dash, after a GPS fix. A fix needs open sky. Indoors, a survey may not start.
+The card must be FAT32 and in Scout Lite, not in the Flipper. Start Wardrive, or press OK on Dash, after a GPS fix. A fix needs open sky. Indoors, a wardrive may not start.
 
 </details>
 
