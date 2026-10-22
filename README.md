@@ -2,11 +2,35 @@
 
 **ESP32-C5 dual-band Wi-Fi board with onboard GPS.** Custom Marauder for Scout Lite is already on the board.
 
-Install the SigRoam app on the Flipper for the survey screen. The Marauder app is the general menu. Switching apps does not reflash the board.
+Two Flipper apps use that firmware. Pick SigRoam for the survey screen, or the Marauder app for the general menu. Switching apps does not reflash the board.
 
 **[Install the SigRoam app](https://flash.pingequa.com/devices/flipper-sigroam)** · **[Update the board](https://flash.pingequa.com/devices/scout-lite)**
 
 > For authorized network research and electronics education. Only scan or test networks you own or are explicitly authorized to assess.
+
+## Pick an app
+
+Both apps run on the firmware already on the board. Switching apps does not reflash it.
+
+### SigRoam — survey screen
+
+Choose SigRoam to watch the survey: live 2.4 GHz and 5 GHz counts, GPS, the upload queue, and Board tools.
+
+Install it below. Screens and the rest of the app are in the [SigRoam guide](https://github.com/pingequalab/sigroam-wardriving).
+
+### Marauder app — general menu
+
+Choose the Marauder app for the general menu on this screenless board: 2.4 GHz and 5 GHz scanning, wardrive with GPS, logs on the board card, and WiGLE upload.
+
+Open `Apps → GPIO → [ESP32] WiFi Marauder`. If that item is missing, install WiFi Marauder from the Flipper app catalog.
+
+How to use the menu is in the [Marauder getting started guide](https://github.com/justcallmekoko/ESP32Marauder/wiki/getting-started) and [Applications](https://github.com/justcallmekoko/ESP32Marauder/wiki/applications). Those pages also cover other boards. Do not flash the firmware they describe onto Scout Lite. Update this board only from [Marauder for Scout Lite](https://flash.pingequa.com/devices/scout-lite).
+
+## Settings
+
+1. Set `Settings → System → Log Device` to `Off` before you open either app.
+2. Close qFlipper and the Flipper phone app before a browser install.
+3. To upload from the board, add the WiGLE key and join a Wi-Fi network in the app you use. See [WiGLE key and Wi-Fi](#wigle-key-and-wi-fi).
 
 ## Install the SigRoam app
 
@@ -22,15 +46,12 @@ The app is the survey screen: live 2.4 GHz and 5 GHz counts, GPS, the upload que
 2. Install it in the browser: [flash.pingequa.com/devices/flipper-sigroam](https://flash.pingequa.com/devices/flipper-sigroam). Use Chrome, Edge, or desktop Firefox. That page picks the file for your Flipper firmware. Or copy the latest file from [Releases](https://github.com/pingequalab/sigroam-wardriving/releases/latest) to `SD Card/apps/GPIO/` on the Flipper.
 3. Set `Settings → System → Log Device` to `Off`. Open `Apps → GPIO → SigRoam Wardriving`.
 
-**Marauder app.** Open `Apps → GPIO → [ESP32] WiFi Marauder`, then Wardrive. If that item is missing, install WiFi Marauder from the Flipper app catalog, or use SigRoam.
-
 ## Use it
 
 1. Screw the antenna on. Power off the Flipper. Seat Scout Lite on the GPIO header.
-2. The Flipper powers the board on pin 1 and talks on pins 13 and 14. **Do not power the board from pin 9 (3.3 V).**
-3. Put a FAT32 card in Scout Lite, not in the Flipper. The card is not in the box.
-4. Outdoors, wait for a GPS fix. In SigRoam, press OK on Dash to start, and OK again to stop.
-5. Press Upload when you want the logs on WiGLE. Stopping a survey does not upload.
+2. Put a FAT32 card in Scout Lite, not in the Flipper. The card is not in the box.
+3. Outdoors, wait for a GPS fix. In SigRoam, press OK on Dash to start, and OK again to stop. In the Marauder app, start Wardrive from the menu in the guide above.
+4. Press Upload when you want the logs on WiGLE. Stopping a survey does not upload.
 
 > Wardrive transmits while it hops channels. Indoors, a survey may not start. 5 GHz on this board is scan and enumeration.
 
@@ -51,7 +72,7 @@ Restart the board. It reads both files and deletes them. Check that they are gon
 
 ### Wi-Fi
 
-Wi-Fi is not read from the card. In SigRoam, if Upload says there is no saved Wi-Fi, press WiFi and join the network in the app. The board saves that connection.
+Wi-Fi is not read from the card. In SigRoam, if Upload says there is no saved Wi-Fi, press WiFi and join the network in the app. In the Marauder app, join the network from that app. The board saves that connection. The Marauder menu steps are in the [getting started guide](https://github.com/justcallmekoko/ESP32Marauder/wiki/getting-started).
 
 You can also copy the CSV off the card and upload it at [WiGLE](https://wigle.net/).
 
@@ -144,4 +165,5 @@ Hours and the mailing address are on the [contact page](https://www.pingequa.com
 
 - **Product** — [Scout Lite on PINGEQUA](https://www.pingequa.com/products/scout-lite?utm_source=github&utm_medium=referral&utm_campaign=pq-scout-lite-c5&utm_content=scout-lite-readme)
 - **SigRoam app** — [pingequalab/sigroam-wardriving](https://github.com/pingequalab/sigroam-wardriving) · [install](https://flash.pingequa.com/devices/flipper-sigroam) · [latest file](https://github.com/pingequalab/sigroam-wardriving/releases/latest)
+- **Marauder app** — [getting started](https://github.com/justcallmekoko/ESP32Marauder/wiki/getting-started) · [applications](https://github.com/justcallmekoko/ESP32Marauder/wiki/applications)
 - **Board firmware** — [update in the browser](https://flash.pingequa.com/devices/scout-lite) · [release files](https://github.com/pingequalab/ESP32Marauder/releases/tag/scout-lite-v1.0.0)
