@@ -85,7 +85,7 @@ Do this only to update or restore the board. Take Scout Lite off the Flipper fir
 3. If this board last ran the old scanner firmware, turn on Erase entire flash first.
 4. When it finishes, unplug USB-C before you mount the board on the Flipper again.
 
-The same files are on the [ESP32Marauder release](https://github.com/pingequalab/ESP32Marauder/releases/tag/scout-lite-v1.0.0). Use the flash page to install them.
+The same files are on the [ESP32Marauder release](https://github.com/pingequalab/ESP32Marauder/releases/tag/scout-lite-v1.1.0). Use the flash page to install them.
 
 ## Hardware
 
@@ -146,7 +146,7 @@ Delete the older file in `SD Card/apps/GPIO/`. The installer writes one app.
 <details>
 <summary>The ignore list did not hide a network</summary>
 
-It only skips that name in the SD log. The network is still on the air. A split size returns to 1024 KB after the board reboots.
+It only skips that name in the SD log. The network is still on the air. On firmware v1.1.0 or later, a split size is saved and kept after reboot. On v1.0.0, a reboot returns it to 1024 KB.
 
 </details>
 
@@ -166,4 +166,4 @@ Hours and the mailing address are on the [contact page](https://www.pingequa.com
 - **Product** — [Scout Lite on PINGEQUA](https://www.pingequa.com/products/scout-lite?utm_source=github&utm_medium=referral&utm_campaign=pq-scout-lite-c5&utm_content=scout-lite-readme)
 - **SigRoam app** — [pingequalab/sigroam-wardriving](https://github.com/pingequalab/sigroam-wardriving) · [install](https://flash.pingequa.com/devices/flipper-sigroam) · [latest file](https://github.com/pingequalab/sigroam-wardriving/releases/latest)
 - **Marauder app** — [getting started](https://github.com/justcallmekoko/ESP32Marauder/wiki/getting-started) · [applications](https://github.com/justcallmekoko/ESP32Marauder/wiki/applications)
-- **Board firmware** — [update in the browser](https://flash.pingequa.com/devices/scout-lite) · [release files](https://github.com/pingequalab/ESP32Marauder/releases/tag/scout-lite-v1.0.0)
+- **Board firmware** — [update in the browser](https://flash.pingequa.com/devices/scout-lite) · [release files](https://github.com/pingequalab/ESP32Marauder/releases/tag/scout-lite-v1.1.0)
